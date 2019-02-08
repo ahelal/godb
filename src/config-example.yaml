@@ -1,0 +1,12 @@
+---
+db:
+    file: "dbenc.json"
+    enckey: "1234567890123456"
+    sync: 3
+web:
+    listen: "0.0.0.0"
+    port: 8080
+    gracefulwait: 30s
+    basicauth: true
+    user: "u"
+    password: "p"

@@ -1,0 +1,76 @@
+---
+
+name: goDB
+version: 0.0.1
+license: "Mozilla Public License 2.0"
+maintainers: ["Adham <ahelal@users.noreply.github.com>"]
+description: |
+              A stupid HTTP noSQL DB to test masnae.
+              probably has no use for anyone
+artifacts:
+    godb:
+      version: "${version}"
+      local: "./src/build"
+
+build: |
+    cd "${ARTIFACTS_TMP_DIR}"
+    mkdir -p "${ARTIFACTS_TARGET}/bin/"
+    cp -a goDB-linux "${ARTIFACTS_TARGET}/bin/"
+
+# build_test: |
+#    "${ARTIFACTS_TARGET}/bin/containerpilot" --version > /dev/null
+# files:
+#    - jobs
+#    - hooks
+
+jobs:
+  - name: goDB
+    ctl:
+      start: hooks/start_godb.sh
+      # start_cmd: ${JOB_DIR}/pkg/bin/godb --config ${JOB_DIR}/config/config.yml
+      # stop: hooks/stop_godb.sh
+      # drain: hooks/drain_godb.sh
+    templates:
+       config.tpl.yml: config/config.yml
+    properties:
+      - name: db.file
+        description: Database state file
+        default: /tmp/example.db
+
+      - name: db.enc_key
+        description: |
+                      AES encryptian key to encrypt databse
+                      by default databse is not encrypted
+        default: ""
+
+      - name: db.sync
+        description: |
+                      synchronize mechnism how offten should data be flushed to file.
+                      -1 : Neven use as in memory no state
+                      0  : With every databse update call
+                      N  : Every N seconds
+        default: 0
+
+      - name: web.listen
+        description: Listen to which interface
+        default: "0.0.0.0"
+
+      - name: web.port
+        description: Port on which the goDB should listen for HTTP traffic.
+        default: 8543
+
+      - name: web.graceful_wait
+        description: graceful timeout after attempt to terminate
+        default: "30s"
+
+      - name: web.basic_auth
+        description: If web interface is protected by basic auth
+        default: false
+
+      - name: web.basic_auth.user
+        description: Username for basic auth (basic_auth needs to be enabbled too)
+        default: ""
+
+      - name: web.basic_auth.password
+        description: password for basic auth (basic_auth needs to be enabbled too)
+        default: ""

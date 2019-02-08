@@ -1,0 +1,13 @@
+---
+db:
+    file: {{ plugin "ctemplate" "db.file" }}
+    enckey: {{ plugin "ctemplate" "db.enc_key" }}
+    sync: {{ plugin "ctemplate" "db.sync" }}
+
+web:
+    listen: {{ plugin "ctemplate" "web.listen" }}
+    port:  {{ plugin "ctemplate" "web.port" }}
+    basicauth: {{ plugin "ctemplate" "web.basic_auth" }}
+    user: {{ plugin "ctemplate" "web.basic_auth.user" }}
+    password: {{ plugin "ctemplate" "web.basic_auth.password" }}
+    gracefulwait: {{ plugin "ctemplate" "db.graceful_wait" }}
